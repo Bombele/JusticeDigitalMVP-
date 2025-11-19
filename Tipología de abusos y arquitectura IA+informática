@@ -1,0 +1,18 @@
+### Tipología de abusos y arquitectura IA+informática
+
+Se ha añadido el archivo [`bitacora/07-abuses.md`](bitacora/07-abuses.md) con la tipología bilingüe (ES+FR) de abusos institucionales y la descripción de la alianza IA + informática.
+
+**Resumen:**
+- Retrasos procesales / Retards procéduraux  
+- Falta de atención médica / Manque de soins médicaux  
+- Extorsión por parte de funcionarios / Extorsion par des fonctionnaires  
+- Abuso de poder / Abus de pouvoir  
+- Discriminación judicial / Discrimination judiciaire  
+- Corrupción administrativa / Corruption administrative  
+- Obstrucción de justicia / Entrave à la justice  
+- Otros abusos / Autres abus  
+
+Este documento refuerza la memoria activa del proyecto y conecta la narrativa ciudadana con la arquitectura técnica (FastAPI, spaCy, SQLAlchemy, SQLite/PostgreSQL).
+
+**Commit asociado:**  
+`Add abuse taxonomy and IA+informatics description`
