@@ -87,3 +87,5 @@ Composants clés :
 - Autor / Auteur : Bombele  
 - Fecha / Date : 2025-11-19  
 - Ruta / Chemin : bitacora/07-abuses.md
+git add bitacora/07-abuses.md
+git commit -m "Extend abuse taxonomy to 5 languages and link to API architecture"
