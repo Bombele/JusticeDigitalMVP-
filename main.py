@@ -84,3 +84,43 @@ def get_stats(db: Session = Depends(get_db)):
         "total_denuncias": total,
         "por_tipo": {tipo: count for tipo, count in por_tipo}
     }
+from sqlalchemy import func
+from fastapi import Depends
+import csv
+import io
+from fastapi.responses import StreamingResponse
+
+# Dependencia para obtener sesión en cada request
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+@app.get("/stats")
+def get_stats(db: Session = Depends(get_db)):
+    total = db.query(Denuncia).count()
+    por_tipo = db.query(Denuncia.tipo_abuso, func.count()).group_by(Denuncia.tipo_abuso).all()
+    return {
+        "total_denuncias": total,
+        "por_tipo": {tipo: count for tipo, count in por_tipo}
+    }
+
+@app.get("/stats/export")
+def export_stats(db: Session = Depends(get_db)):
+    por_tipo = db.query(Denuncia.tipo_abuso, func.count()).group_by(Denuncia.tipo_abuso).all()
+    
+    # Crear un buffer CSV en memoria
+    output = io.StringIO()
+    writer = csv.writer(output)
+    writer.writerow(["Tipo de abuso", "Cantidad"])
+    for tipo, count in por_tipo:
+        writer.writerow([tipo, count])
+    
+    output.seek(0)
+    return StreamingResponse(
+        output,
+        media_type="text/csv",
+        headers={"Content-Disposition": "attachment; filename=stats.csv"}
+    )
