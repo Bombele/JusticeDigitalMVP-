@@ -86,7 +86,7 @@ Composants clés :
 
 - Autor / Auteur : Bombele  
 - Fecha / Date : 2025-11-19  
-- Ruta / Chemin : 
+- Ruta / Chemin : 07 - Tipología de abusos / Typologie des abus
   # Tipología de abusos y arquitectura IA+informática
 
 Se ha añadido el archivo [`bitacora/07-abuses.md`](bitacora/07-abuses.md) con la tipología multilingüe (ES, FR, EN, SW, LN) de abusos institucionales y la descripción de la alianza IA + informática.
