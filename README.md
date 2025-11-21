@@ -96,3 +96,20 @@ GET /stats?lang=fr
     "Discrimination judiciaire": 5
   }
 }
+## 📝 Utilisation des codes internes dans `POST /reports`
+
+Chaque abus institutionnel est identifié par un **code interne** stable (ex. `abuse_of_power`, `corruption`).  
+Ces codes doivent être utilisés dans le champ `tipo_abuso` lors de la création d’une dénonciation.  
+La réponse de l’API s’adapte automatiquement à la langue choisie (`?lang=fr`, `?lang=en`, etc.).
+
+### Exemple en français
+
+```http
+POST /reports?lang=fr
+Content-Type: application/json
+
+{
+  "texto": "Le juge a retardé le procès sans justification",
+  "tipo_abuso": "procedural_delay",
+  "idioma": "fr"
+}
