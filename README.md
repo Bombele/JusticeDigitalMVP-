@@ -113,3 +113,4 @@ Content-Type: application/json
   "tipo_abuso": "procedural_delay",
   "idioma": "fr"
 }
+GET /stats?lang=fr
