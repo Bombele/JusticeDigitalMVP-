@@ -12,3 +12,22 @@ Consulta el detalle completo en [`bitacora/07-abuses.md`](bitacora/07-abuses.md)
 - Corrupción administrativa / Corruption administrative  
 - Obstrucción de justicia / Entrave à la justice  
 - Otros abusos / Autres abus
+## 📊 Reportes y estadísticas
+
+La plataforma ahora incluye endpoints para consultar y exportar estadísticas de las denuncias:
+
+### 1. `/stats`
+Devuelve un JSON con:
+- Total de denuncias registradas
+- Conteo por tipo de abuso
+
+**Ejemplo de respuesta:**
+```json
+{
+  "total_denuncias": 12,
+  "por_tipo": {
+    "corrupcion": 5,
+    "abuso_de_poder": 3,
+    "discriminacion": 4
+  }
+}
