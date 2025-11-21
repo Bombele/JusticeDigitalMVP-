@@ -219,3 +219,25 @@ def get_languages(lang: str = DEFAULT_LANG):
         "message": t(lang, "success"),
         "supported": list(translations.keys())
     }
+from abuse_types import abuse_types
+from translations import translations
+
+DEFAULT_LANG = "fr"
+
+def t(lang: str, key: str) -> str:
+    return translations.get(lang, translations[DEFAULT_LANG]).get(
+        key, translations[DEFAULT_LANG].get(key, "")
+    )
+
+@app.get("/abuse-types")
+def get_abuse_types(lang: str = DEFAULT_LANG):
+    """
+    Endpoint qui retourne la taxonomie des abus institutionnels
+    dans la langue choisie (fr, es, en, sw, ln).
+    """
+    if lang not in abuse_types:
+        lang = DEFAULT_LANG
+    return {
+        "message": t(lang, "success"),
+        "types": list(abuse_types[lang].values())
+    }
