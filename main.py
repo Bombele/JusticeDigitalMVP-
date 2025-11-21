@@ -65,3 +65,22 @@ def obtener_reporte(id: int):
             "texto_anonimizado": reporte.anonymized_text
         }
     return {"error": "Reporte no encontrado"}
+from sqlalchemy import func
+from fastapi import Depends
+
+# Dependencia para obtener sesión en cada request
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+@app.get("/stats")
+def get_stats(db: Session = Depends(get_db)):
+    total = db.query(Denuncia).count()
+    por_tipo = db.query(Denuncia.tipo_abuso, func.count()).group_by(Denuncia.tipo_abuso).all()
+    return {
+        "total_denuncias": total,
+        "por_tipo": {tipo: count for tipo, count in por_tipo}
+    }
