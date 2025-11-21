@@ -31,3 +31,32 @@ Devuelve un JSON con:
     "discriminacion": 4
   }
 }
+## 🌍 Multilingue
+
+La plateforme JusticeDigitalMVP est disponible en **5 langues** :
+
+- 🇪🇸 Español  
+- 🇫🇷 Français  
+- 🇬🇧 English  
+- 🇹🇿 Swahili  
+- 🇨🇩 Lingala  
+
+### Comment utiliser
+
+Chaque endpoint accepte un paramètre `lang` :
+
+- `GET /?lang=fr` → Bienvenue sur JusticeDigitalMVP  
+- `GET /?lang=en` → Welcome to JusticeDigitalMVP  
+- `GET /?lang=sw` → Karibu JusticeDigitalMVP  
+- `GET /?lang=ln` → Boyei malamu na JusticeDigitalMVP  
+- `GET /?lang=es` → Bienvenido a JusticeDigitalMVP  
+
+### Exemple de création de dénonciation
+
+```json
+POST /reports?lang=sw
+{
+  "texto": "Jaji John alitumia vibaya mamlaka yake",
+  "tipo_abuso": "abuse_of_power",
+  "idioma": "sw"
+}
