@@ -145,3 +145,77 @@ def get_timeline(db: Session = Depends(get_db)):
         })
 
     return {"timeline": hitos}
+from translations import translations
+DEFAULT_LANG = "fr"
+
+def t(lang: str, key: str) -> str:
+    # Fallback si la langue ou la clé n’existe pas
+    return translations.get(lang, translations[DEFAULT_LANG]).get(key, translations[DEFAULT_LANG].get(key, ""))
+@app.get("/")
+def inicio(lang: str = DEFAULT_LANG):
+    return {"message": t(lang, "welcome")}
+@app.post("/reports")
+def crear_reporte(reporte: Reporte, lang: str = DEFAULT_LANG, db: Session = Depends(get_db)):
+    # ... ta logique d’anonymisation et de sauvegarde ...
+    nuevo = Denuncia(
+        original_text=reporte.texto,
+        anonymized_text=anon,
+        tipo_abuso=reporte.tipo_abuso,
+        idioma=reporte.idioma
+    )
+    db.add(nuevo)
+    db.commit()
+    db.refresh(nuevo)
+    return {
+        "message": t(lang, "report_created"),
+        "id": nuevo.id,
+        "idioma": reporte.idioma
+    }
+@app.get("/reports/{id}")
+def get_report(id: int, lang: str = DEFAULT_LANG, db: Session = Depends(get_db)):
+    r = db.query(Denuncia).get(id)
+    if not r:
+        return {"error": t(lang, "error")}
+    return {
+        "message": t(lang, "success"),
+        "report": {
+            "id": r.id,
+            "idioma": r.idioma,
+            "tipo_abuso": r.tipo_abuso,
+            "original_text": r.original_text,
+            "anonymized_text": r.anonymized_text
+        }
+    }
+from sqlalchemy import func
+
+@app.get("/stats")
+def get_stats(lang: str = DEFAULT_LANG, db: Session = Depends(get_db)):
+    total = db.query(Denuncia).count()
+    por_tipo = (
+        db.query(Denuncia.tipo_abuso, func.count(Denuncia.id))
+        .group_by(Denuncia.tipo_abuso)
+        .all()
+    )
+    return {
+        "message": t(lang, "stats"),
+        "total": total,
+        "por_tipo": {tipo: cantidad for tipo, cantidad in por_tipo}
+    }
+@app.get("/stats/export")
+def export_stats(lang: str = DEFAULT_LANG, db: Session = Depends(get_db)):
+    # ... génère le CSV depuis la base ...
+    # Exemple de métadonnée traduite si tu renvoies un JSON de confirmation:
+    return {"message": t(lang, "success")}
+@app.get("/timeline")
+def get_timeline(lang: str = DEFAULT_LANG, db: Session = Depends(get_db)):
+    # ... construis tes jalons ...
+    return {
+        "message": t(lang, "success"),
+        "timeline": hitos
+    }
+@app.get("/languages")
+def get_languages(lang: str = DEFAULT_LANG):
+    return {
+        "message": t(lang, "success"),
+        "supported": list(translations.keys())
+    }
