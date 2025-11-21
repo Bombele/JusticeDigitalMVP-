@@ -86,37 +86,7 @@ Composants clés :
 
 - Autor / Auteur : Bombele  
 - Fecha / Date : 2025-11-19  
-- Ruta / Chemin : bitacora/07-abuses.md
-git add bitacora/07-abuses.md
-git commit -m "Extend abuse taxonomy to 5 languages and link to API architecture"
-abuse_types = {
-    "es": {
-        "procedural_delay": "Retrasos procesales",
-        "medical_neglect": "Falta de atención médica",
-        "extortion": "Extorsión de funcionarios",
-        "abuse_of_power": "Abuso de poder",
-        "judicial_discrimination": "Discriminación judicial",
-        "administrative_corruption": "Corrupción administrativa",
-        "obstruction_of_justice": "Obstrucción de justicia",
-        "other_abuses": "Otros abusos"
-    },
-    "fr": {
-        "procedural_delay": "Retards procéduraux",
-        "medical_neglect": "Manque de soins médicaux",
-        "extortion": "Extorsion par des fonctionnaires",
-        "abuse_of_power": "Abus de pouvoir",
-        "judicial_discrimination": "Discrimination judiciaire",
-        "administrative_corruption": "Corruption administrative",
-        "obstruction_of_justice": "Entrave à la justice",
-        "other_abuses": "Autres abus"
-    },
-    "en": {
-        "procedural_delay": "Procedural delays",
-        "medical_neglect": "Lack of medical care",
-        "extortion": "Extortion by officials",
-        "abuse_of_power": "Abuse of power",
-        "judicial_discrimination": "Judicial discrimination",
-        "administrative_corruption": "Administrative corruption",
+- Ruta / Chemin : 
   # Tipología de abusos y arquitectura IA+informática
 
 Se ha añadido el archivo [`bitacora/07-abuses.md`](bitacora/07-abuses.md) con la tipología multilingüe (ES, FR, EN, SW, LN) de abusos institucionales y la descripción de la alianza IA + informática.
