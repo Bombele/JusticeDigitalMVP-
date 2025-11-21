@@ -89,3 +89,63 @@ Composants clés :
 - Ruta / Chemin : bitacora/07-abuses.md
 git add bitacora/07-abuses.md
 git commit -m "Extend abuse taxonomy to 5 languages and link to API architecture"
+abuse_types = {
+    "es": {
+        "procedural_delay": "Retrasos procesales",
+        "medical_neglect": "Falta de atención médica",
+        "extortion": "Extorsión de funcionarios",
+        "abuse_of_power": "Abuso de poder",
+        "judicial_discrimination": "Discriminación judicial",
+        "administrative_corruption": "Corrupción administrativa",
+        "obstruction_of_justice": "Obstrucción de justicia",
+        "other_abuses": "Otros abusos"
+    },
+    "fr": {
+        "procedural_delay": "Retards procéduraux",
+        "medical_neglect": "Manque de soins médicaux",
+        "extortion": "Extorsion par des fonctionnaires",
+        "abuse_of_power": "Abus de pouvoir",
+        "judicial_discrimination": "Discrimination judiciaire",
+        "administrative_corruption": "Corruption administrative",
+        "obstruction_of_justice": "Entrave à la justice",
+        "other_abuses": "Autres abus"
+    },
+    "en": {
+        "procedural_delay": "Procedural delays",
+        "medical_neglect": "Lack of medical care",
+        "extortion": "Extortion by officials",
+        "abuse_of_power": "Abuse of power",
+        "judicial_discrimination": "Judicial discrimination",
+        "administrative_corruption": "Administrative corruption",
+  # Tipología de abusos y arquitectura IA+informática
+
+Se ha añadido el archivo [`bitacora/07-abuses.md`](bitacora/07-abuses.md) con la tipología multilingüe (ES, FR, EN, SW, LN) de abusos institucionales y la descripción de la alianza IA + informática.
+
+---
+
+## 🧩 Tipología multilingüe de abusos institucionales
+
+| Código interno            | Español                    | Français                      | English                     | Swahili                          | Lingala                                |
+|---------------------------|----------------------------|-------------------------------|-----------------------------|-----------------------------------|----------------------------------------|
+| procedural_delay          | Retrasos procesales        | Retards procéduraux           | Procedural delays           | Muda ya mchakato                 | Nkɔkɔ ya procédure                     |
+| medical_neglect           | Falta de atención médica   | Manque de soins médicaux      | Lack of medical care        | Kukosa huduma za afya            | Kozanga lisungi ya nzoto               |
+| extortion                 | Extorsión de funcionarios  | Extorsion par des fonctionnaires | Extortion by officials    | Ufisadi wa maafisa               | Kosɛnga mbongo na bakonzi              |
+| abuse_of_power            | Abuso de poder             | Abus de pouvoir               | Abuse of power              | Matumizi mabaya ya mamlaka        | Kosalelaka makasi na kobebisa          |
+| judicial_discrimination   | Discriminación judicial    | Discrimination judiciaire     | Judicial discrimination     | Ubaguzi wa kimahakama            | Diskriminasyon ya bosambisi            |
+| administrative_corruption | Corrupción administrativa  | Corruption administrative     | Administrative corruption   | Ufisadi wa kiutawala             | Kokɔrɔpɔ ya administration             |
+| obstruction_of_justice    | Obstrucción de justicia    | Entrave à la justice          | Obstruction of justice      | Kuzuia haki                      | Kofunda bosambisi                      |
+| other_abuses              | Otros abusos               | Autres abus                   | Other abuses                | Mengine ya unyanyasaji           | Bamosusu ya bokosi                     |
+
+---
+
+## 🧠 Integración técnica
+
+Cada categoría tiene un **código interno** que se utiliza en la base de datos y en los endpoints de la API.  
+Las respuestas y visualizaciones se adaptan automáticamente al idioma del usuario gracias al archivo `abuse_types.py`.
+
+Ejemplo de uso en `/stats`:
+
+```python
+from abuse_types import abuse_types
+
+label = abuse_types[lang].get(tipo_abuso, tipo_abuso)
