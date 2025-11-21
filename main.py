@@ -321,3 +321,50 @@ def consultation(data: Consulta):
         "interpretation": "Votre question est de nature générale",
         "suggestion": "Consultez les statistiques via /stats ou la liste des abus via /abuse-types"
     }
+git add requirements.txt
+git commit -m "Add Hugging Face dependencies"
+git push origin main
+from pydantic import BaseModel
+from abuse_types import abuse_types
+from translations import translations
+from transformers import pipeline
+
+# Charger un pipeline multilingue
+classifier = pipeline("text-classification", model="xlm-roberta-base", tokenizer="xlm-roberta-base")
+
+DEFAULT_LANG = "fr"
+
+def t(lang: str, key: str) -> str:
+    return translations.get(lang, translations[DEFAULT_LANG]).get(
+        key, translations[DEFAULT_LANG].get(key, "")
+    )
+
+class Consulta(BaseModel):
+    user: str
+    question: str
+    lang: str = "fr"
+
+@app.post("/consultation")
+def consultation(data: Consulta):
+    lang = data.lang if data.lang in abuse_types else DEFAULT_LANG
+
+    # Classification Hugging Face
+    result = classifier(data.question, truncation=True)[0]
+    label = result["label"]
+    score = result["score"]
+
+    # Vérifier si le label correspond à un code interne
+    if label in abuse_types[lang]:
+        return {
+            "message": t(lang, "success"),
+            "interpretation": f"Votre question correspond à un abus de type: {abuse_types[lang][label]}",
+            "confidence": f"{score:.2f}",
+            "suggestion": f"Vous pouvez créer une dénonciation avec le code interne '{label}' via /reports"
+        }
+
+    return {
+        "message": t(lang, "success"),
+        "interpretation": "Votre question est de nature générale",
+        "confidence": f"{score:.2f}",
+        "suggestion": "Consultez les statistiques via /stats ou la liste des abus via /abuse-types"
+}
