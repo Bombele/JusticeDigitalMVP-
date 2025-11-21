@@ -124,3 +124,24 @@ def export_stats(db: Session = Depends(get_db)):
         media_type="text/csv",
         headers={"Content-Disposition": "attachment; filename=stats.csv"}
     )
+from datetime import datetime
+
+@app.get("/timeline")
+def get_timeline(db: Session = Depends(get_db)):
+    # Hitos fijos del proyecto
+    hitos = [
+        {"fecha": "2025-11-18", "evento": "Inicio del proyecto JusticeDigitalMVP"},
+        {"fecha": "2025-11-19", "evento": "Primer endpoint de anonimización (/anonymize)"},
+        {"fecha": "2025-11-20", "evento": "Integración de estadísticas (/stats) y exportación CSV"},
+        {"fecha": "2025-11-21", "evento": "Diagnóstico de crash en Railway y resiliencia en GitHub"},
+    ]
+
+    # Denuncias emblemáticas (últimas 3)
+    denuncias = db.query(Denuncia).order_by(Denuncia.id.desc()).limit(3).all()
+    for d in denuncias:
+        hitos.append({
+            "fecha": datetime.now().strftime("%Y-%m-%d"),
+            "evento": f"Denuncia #{d.id} registrada: {d.tipo_abuso}"
+        })
+
+    return {"timeline": hitos}
