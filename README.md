@@ -114,3 +114,45 @@ Content-Type: application/json
   "idioma": "fr"
 }
 GET /stats?lang=fr
+# JusticeDigitalMVP
+
+Plataforma ciudadana para documentar abusos institucionales y fortalecer la justicia digital transcontinental.  
+Construida con **FastAPI, spaCy, SQLAlchemy, Hugging Face Transformers, SQLite/PostgreSQL**.
+
+---
+
+## 🚀 Endpoints principales
+
+- **`/reports`** → Crear denuncias con código interno de abuso.
+- **`/stats`** → Estadísticas multilingües de abusos.
+- **`/abuse-types`** → Lista de categorías disponibles en la lengua del usuario.
+- **`/consultation`** → IA conversacional para orientación jurídica ciudadana.
+
+---
+
+## 🌍 Taxonomía multilingüe de abusos
+
+Cada categoría tiene un **código interno** estable y traducciones en **Español, Français, English, Swahili, Lingala**.  
+Ejemplo: `abuse_of_power` → "Abus de pouvoir" (fr), "Abuso de poder" (es), "Abuse of power" (en).
+
+👉 Ver detalle en [`bitacora/07-abuses.md`](bitacora/07-abuses.md).
+
+---
+
+## 🧠 IA Conversacional
+
+La plataforma integra **Hugging Face Transformers (xlm-roberta-base)** para análisis multilingüe.  
+El endpoint `/consultation` permite:
+
+- Reconocer abusos mencionados en lenguaje natural.
+- Sugerir el código interno correspondiente.
+- Redirigir al endpoint `/reports`.
+
+Ejemplo:
+
+```http
+POST /consultation?lang=fr
+{
+  "user": "Camille",
+  "question": "Le juge a retardé mon procès sans raison"
+}
