@@ -60,3 +60,39 @@ POST /reports?lang=sw
   "tipo_abuso": "abuse_of_power",
   "idioma": "sw"
 }
+## 🌍 Taxonomie multilingue des abus institutionnels
+
+La plateforme JusticeDigitalMVP utilise une **taxonomie multilingue** pour classifier les abus institutionnels.  
+Chaque catégorie possède un **code interne** stable (utilisé dans la base de données et les endpoints), et une traduction disponible en **Español, Français, English, Swahili, Lingala**.
+
+### Catégories disponibles
+
+| Code interne             | Español                    | Français                      | English                     | Swahili                          | Lingala                                |
+|--------------------------|----------------------------|-------------------------------|-----------------------------|-----------------------------------|----------------------------------------|
+| procedural_delay         | Retrasos procesales        | Retards procéduraux           | Procedural delays           | Muda ya mchakato                 | Nkɔkɔ ya procédure                     |
+| medical_neglect          | Falta de atención médica   | Manque de soins médicaux      | Lack of medical care        | Kukosa huduma za afya            | Kozanga lisungi ya nzoto               |
+| extortion                | Extorsión de funcionarios  | Extorsion par des fonctionnaires | Extortion by officials    | Ufisadi wa maafisa               | Kosɛnga mbongo na bakonzi              |
+| abuse_of_power           | Abuso de poder             | Abus de pouvoir               | Abuse of power              | Matumizi mabaya ya mamlaka        | Kosalelaka makasi na kobebisa          |
+| judicial_discrimination  | Discriminación judicial    | Discrimination judiciaire     | Judicial discrimination     | Ubaguzi wa kimahakama            | Diskriminasyon ya bosambisi            |
+| administrative_corruption| Corrupción administrativa  | Corruption administrative     | Administrative corruption   | Ufisadi wa kiutawala             | Kokɔrɔpɔ ya administration             |
+| obstruction_of_justice   | Obstrucción de justicia    | Entrave à la justice          | Obstruction of justice      | Kuzuia haki                      | Kofunda bosambisi                      |
+| other_abuses             | Otros abusos               | Autres abus                   | Other abuses                | Mengine ya unyanyasaji           | Bamosusu ya bokosi                     |
+
+---
+
+### Exemple d’utilisation dans l’API
+
+- **Endpoint `/stats`**  
+  Retourne les statistiques avec les catégories traduites selon la langue choisie :
+
+```json
+GET /stats?lang=fr
+{
+  "message": "Statistiques",
+  "total": 42,
+  "por_tipo": {
+    "Abus de pouvoir": 12,
+    "Corruption administrative": 8,
+    "Discrimination judiciaire": 5
+  }
+}
