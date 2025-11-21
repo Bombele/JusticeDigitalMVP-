@@ -267,3 +267,57 @@ def get_abuse_types(lang: str = DEFAULT_LANG):
             for code in abuse_types[lang].keys()
         ]
         }
+from pydantic import BaseModel
+from abuse_types import abuse_types
+from translations import translations
+import spacy
+
+# Charger un modèle NLP multilingue (ex. spaCy)
+# Tu peux installer : python -m spacy download xx_ent_wiki_sm
+nlp = spacy.load("xx_ent_wiki_sm")
+
+DEFAULT_LANG = "fr"
+
+def t(lang: str, key: str) -> str:
+    return translations.get(lang, translations[DEFAULT_LANG]).get(
+        key, translations[DEFAULT_LANG].get(key, "")
+    )
+
+class Consulta(BaseModel):
+    user: str
+    question: str
+    lang: str = "fr"
+
+@app.post("/consultation")
+def consultation(data: Consulta):
+    lang = data.lang if data.lang in abuse_types else DEFAULT_LANG
+    doc = nlp(data.question)
+
+    # Normaliser la question
+    q = data.question.lower()
+
+    # Détection par similarité avec taxonomie
+    detected = None
+    for code, label in abuse_types[lang].items():
+        if label.lower() in q:
+            detected = (code, label)
+            break
+        # Vérification par tokens NLP
+        for token in doc:
+            if token.text.lower() in label.lower().split():
+                detected = (code, label)
+                break
+
+    if detected:
+        code, label = detected
+        return {
+            "message": t(lang, "success"),
+            "interpretation": f"Votre question mentionne un abus de type: {label}",
+            "suggestion": f"Vous pouvez créer une dénonciation avec le code interne '{code}' via /reports"
+        }
+
+    return {
+        "message": t(lang, "success"),
+        "interpretation": "Votre question est de nature générale",
+        "suggestion": "Consultez les statistiques via /stats ou la liste des abus via /abuse-types"
+    }
