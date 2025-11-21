@@ -16,3 +16,20 @@ Este documento refuerza la memoria activa del proyecto y conecta la narrativa ci
 
 **Commit asociado:**  
 `Add abuse taxonomy and IA+informatics description`
+**Taxonomía multilingüe de abusos institucionales / Taxonomie multilingue des abus institutionnels**
+
+| Código interno        | Español                    | Français                      | English                     | Swahili                          | Lingala                                |
+|-----------------------|----------------------------|-------------------------------|-----------------------------|-----------------------------------|----------------------------------------|
+| procedural_delay       | Retrasos procesales        | Retards procéduraux           | Procedural delays           | Muda ya mchakato                 | Nkɔkɔ ya procédure                     |
+| medical_neglect        | Falta de atención médica   | Manque de soins médicaux      | Lack of medical care        | Kukosa huduma za afya            | Kozanga lisungi ya nzoto               |
+| extortion              | Extorsión de funcionarios  | Extorsion par des fonctionnaires | Extortion by officials    | Ufisadi wa maafisa               | Kosɛnga mbongo na bakonzi              |
+| abuse_of_power         | Abuso de poder             | Abus de pouvoir               | Abuse of power              | Matumizi mabaya ya mamlaka        | Kosalelaka makasi na kobebisa          |
+| judicial_discrimination| Discriminación judicial    | Discrimination judiciaire     | Judicial discrimination     | Ubaguzi wa kimahakama            | Diskriminasyon ya bosambisi            |
+| administrative_corruption | Corrupción administrativa | Corruption administrative     | Administrative corruption   | Ufisadi wa kiutawala             | Kokɔrɔpɔ ya administration             |
+| obstruction_of_justice | Obstrucción de justicia    | Entrave à la justice          | Obstruction of justice      | Kuzuia haki                      | Kofunda bosambisi                      |
+| other_abuses           | Otros abusos               | Autres abus                   | Other abuses                | Mengine ya unyanyasaji           | Bamosusu ya bokosi                     |
+Cada categoría tiene un **código interno** que se utiliza en la base de datos y en los endpoints de la API.  
+Las respuestas y visualizaciones se adaptan automáticamente al idioma del usuario gracias al archivo `abuse_types.py`.
+
+Ejemplo:  
+- Código `abuse_of_power` → "Abus de pouvoir" si `lang=fr`, "Matumizi mabaya ya mamlaka" si `lang=sw`
