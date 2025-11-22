@@ -2,10 +2,10 @@ from fastapi import FastAPI, Form
 from pydantic import BaseModel
 from sqlalchemy import create_engine, Column, Integer, String, Text
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import Session
 import spacy
 import subprocess
-
+from fastapi import Depends
 # Cargar modelo spaCy (auto-download si falta)
 try:
     nlp = spacy.load("es_core_news_sm")
