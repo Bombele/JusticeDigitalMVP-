@@ -1,5 +1,5 @@
 import gradio as gr
-
+from abuse_types import abuse_types
 # Fonction simple de démonstration
 def classify_abus(text):
     # Ici tu pourras brancher ton modèle NLP (spaCy, Transformers, etc.)
