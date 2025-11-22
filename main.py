@@ -321,7 +321,6 @@ def consultation(data: Consulta):
         "interpretation": "Votre question est de nature générale",
         "suggestion": "Consultez les statistiques via /stats ou la liste des abus via /abuse-types"
     }
-git add requirements.txt
 git commit -m "Add Hugging Face dependencies"
 git push origin main
 from pydantic import BaseModel
@@ -370,4 +369,7 @@ def consultation(data: Consulta):
 }
 git add .
 git commit -m "API completa con frontend y logs"
+git push origin main
+git add main.py
+git commit -m "Fix syntax error in main.py"
 git push origin main
