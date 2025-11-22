@@ -1,5 +1,7 @@
 import gradio as gr
 from abuse_types import abuse_types
+def get_abuse_labels(lang="fr"):
+    return [f"{item['code']} – {item[lang]}" for item in abuse_types]
 # Fonction simple de démonstration
 def classify_abus(text):
     # Ici tu pourras brancher ton modèle NLP (spaCy, Transformers, etc.)
