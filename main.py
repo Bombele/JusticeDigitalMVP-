@@ -368,3 +368,6 @@ def consultation(data: Consulta):
         "confidence": f"{score:.2f}",
         "suggestion": "Consultez les statistiques via /stats ou la liste des abus via /abuse-types"
 }
+git add .
+git commit -m "API completa con frontend y logs"
+git push origin main
