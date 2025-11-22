@@ -321,7 +321,7 @@ def consultation(data: Consulta):
         "interpretation": "Votre question est de nature générale",
         "suggestion": "Consultez les statistiques via /stats ou la liste des abus via /abuse-types"
     }
-git commit -m "Add Hugging Face dependencies"
+# git commit -m "Add Hugging Face dependencies"
 git push origin main
 from pydantic import BaseModel
 from abuse_types import abuse_types
