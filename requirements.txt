@@ -4,3 +4,6 @@ sqlalchemy
 spacy
 pydantic
 python-dotenv
+gradio
+spacy
+transformers
