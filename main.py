@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Form
 from pydantic import BaseModel
 from sqlalchemy import create_engine, Column, Integer, String, Text
-from sqlalchemy.ext.demaiative import declarative_base
+from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 import spacy
 import subprocess
