@@ -22,3 +22,33 @@ iface = gr.Interface(
 # Lancement
 if __name__ == "__main__":
     iface.launch()
+import gradio as gr
+import spacy
+
+# Charger un modèle multilingue spaCy (ex: français)
+nlp = spacy.load("fr_core_news_sm")
+
+# Fonction de classification simple
+def classify_abus(text):
+    doc = nlp(text)
+    # Exemple rudimentaire basé sur mots-clés
+    if "détention" in text.lower() or "prison" in text.lower():
+        return "Abus judiciaire"
+    elif "corruption" in text.lower() or "fraude" in text.lower():
+        return "Abus administratif"
+    elif "violence" in text.lower() or "police" in text.lower():
+        return "Abus sécuritaire"
+    else:
+        return "Type d'abus non identifié"
+
+# Interface Gradio
+iface = gr.Interface(
+    fn=classify_abus,
+    inputs="text",
+    outputs="text",
+    title="LexCivic – Signalement citoyen",
+    description="Plateforme citoyenne de justice digitale pour classifier les abus institutionnels."
+)
+
+if __name__ == "__main__":
+    iface.launch()
