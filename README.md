@@ -156,3 +156,15 @@ POST /consultation?lang=fr
   "user": "Camille",
   "question": "Le juge a retardé mon procès sans raison"
 }
+# LexCivic – Justice digitale citoyenne
+
+LexCivic est une plateforme transcontinentale dédiée à la classification des abus institutionnels, à la consultation citoyenne et à la mémoire juridique active.
+
+## Structure du projet
+- `app.py` : interface Gradio pour la consultation citoyenne
+- `requirements.txt` : dépendances Python
+- `data/` : taxonomies et jeux de données
+- `assets/` : fiches PEC, schémas comparatifs
+
+## Licence
+Ce projet est sous licence Apache 2.0. Les données sont publiées sous CC-BY 4.0.
