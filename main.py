@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Form
 from pydantic import BaseModel
 from sqlalchemy import create_engine, Column, Integer, String, Text
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.ext.demaiative import declarative_base
 from sqlalchemy.orm import sessionmaker
 import spacy
 import subprocess
@@ -322,7 +322,7 @@ def consultation(data: Consulta):
         "suggestion": "Consultez les statistiques via /stats ou la liste des abus via /abuse-types"
     }
 # git commit -m "Add Hugging Face dependencies"
-git push origin main
+# git push origin main  # Este es un comando de terminal, no debe estar en Python
 from pydantic import BaseModel
 from abuse_types import abuse_types
 from translations import translations
