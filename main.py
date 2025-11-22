@@ -367,9 +367,4 @@ def consultation(data: Consulta):
         "confidence": f"{score:.2f}",
         "suggestion": "Consultez les statistiques via /stats ou la liste des abus via /abuse-types"
 }
-git add .
-git commit -m "API completa con frontend y logs"
-git push origin main
-git add main.py
-git commit -m "Fix syntax error in main.py"
-git push origin main
+# git add .  # commande terminal, ne pas inclure dans le code Python
