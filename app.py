@@ -54,3 +54,11 @@ iface = gr.Interface(
 
 if __name__ == "__main__":
     iface.launch()
+import spacy
+import subprocess
+
+try:
+    nlp = spacy.load("xx_ent_wiki_sm")
+except OSError:
+    subprocess.run(["python", "-m", "spacy", "download", "xx_ent_wiki_sm"])
+    nlp = spacy.load("xx_ent_wiki_sm")
