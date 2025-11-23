@@ -369,3 +369,11 @@ def consultation(data: Consulta):
         "suggestion": "Consultez les statistiques via /stats ou la liste des abus via /abuse-types"
 }
 # git add .  # commande terminal, ne pas inclure dans le code Python
+import spacy
+import subprocess
+
+try:
+    nlp = spacy.load("xx_ent_wiki_sm")
+except OSError:
+    subprocess.run(["python", "-m", "spacy", "download", "xx_ent_wiki_sm"])
+    nlp = spacy.load("xx_ent_wiki_sm")
