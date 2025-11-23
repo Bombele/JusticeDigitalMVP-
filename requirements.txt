@@ -1,7 +1,8 @@
-fastapi
+spacyc
 uvicorn
 sqlalchemy
 spacy==3.5.3
+blis==0.7.9 --only-binary :all:
 pydantic
 python-dotenv
 gradio
