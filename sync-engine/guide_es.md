@@ -3,104 +3,114 @@
 ##############################################
 
 ## 1. Objetivo
-El módulo **Sync Engine** asegura la sincronización confiable y auditable de los datos:
-- Gestión de cachés y colas.
-- Sincronización offline-first (modo desconectado).
+El módulo **Sync Engine** garantiza la continuidad operativa en modo offline-first:
+- Gestión del caché y de la cola de operaciones fuera de línea.
+- Sincronización confiable cuando la red se restablece.
 - Resolución de conflictos entre versiones locales y remotas.
-- Exportación y bitácoras para auditoría institucional.
+- Exportación trilingüe para auditoría institucional.
 
 ----------------------------------------------
 
-## 2. Carpeta `src/`
-Esta carpeta contiene el código fuente del motor de sincronización.
-
-📂 sync-engine/src/
+## 2. Carpeta `core/`
+📂 sync-engine/core/
 - cache_manager.py       → Gestión del caché local.
-- sync_worker.py         → Procesos de sincronización (push/pull).
-- conflict_resolver.py   → Resolución de conflictos de datos.
-- sync_export.py         → Exportación de bitácoras de sincronización (CSV/PDF).
+- operation_queue.py     → Cola de operaciones offline (insert/update/delete).
+- conflict_resolver.py   → Algoritmos de resolución de conflictos (LWW, CRDT, reglas de negocio).
+- integrity_checks.py    → Verificación de integridad (timestamps, checksums).
 
-👉 **Buena práctica**:
-- Separar la lógica de caché, sincronización y resolución de conflictos.
-- Documentar cada algoritmo de resolución en el código y en `docs/`.
+👉 **Buena práctica**: separar claramente la lógica de caché, cola y resolución de conflictos.
 
 ----------------------------------------------
 
-## 3. Carpeta `tests/`
-Esta carpeta contiene pruebas unitarias y funcionales.
+## 3. Carpeta `transport/`
+📂 sync-engine/transport/
+- sync_protocol.py       → Definición del protocolo de sincronización.
+- batch_uploader.py      → Agrupación de operaciones en lotes.
+- retry_handler.py       → Manejo de fallos y reintentos automáticos.
+- encryption.py          → Cifrado de paquetes antes de la transmisión.
 
+👉 **Buena práctica**: probar escenarios de sobrecarga de red y pérdida de conexión.
+
+----------------------------------------------
+
+## 4. Carpeta `integration/`
+📂 sync-engine/integration/
+- finsig_adapter.py      → Conector hacia FINSIG (scoring, compliance).
+- event_hooks.py         → Hooks de eventos para notificar módulos externos.
+- audit_logs.py          → Bitácoras de auditoría exportables.
+
+👉 **Buena práctica**: documentar cada hook y el formato de exportación.
+
+----------------------------------------------
+
+## 5. Carpeta `monitoring/`
+📂 sync-engine/monitoring/
+- health_checks.py       → Verificación del estado del motor.
+- metrics_collector.py   → Recolección de métricas (operaciones offline, tasa de éxito).
+- bitacora_export.py     → Exportación trilingüe (FR/ES/EN) para auditoría.
+
+👉 **Buena práctica**: integrar métricas con Prometheus/Grafana.
+
+----------------------------------------------
+
+## 6. Carpeta `tests/`
 📂 sync-engine/tests/
-- test_cache_manager.py       → Verifica la gestión del caché.
-- test_sync_worker.py         → Verifica los procesos de sincronización.
-- test_conflict_resolver.py   → Verifica la resolución de conflictos.
-- test_sync_export.py         → Verifica la exportación de bitácoras.
+- core_tests/            → Verifica caché, cola, conflictos, integridad.
+- transport_tests/       → Verifica protocolo, lotes, reintentos, cifrado.
+- integration_tests/     → Verifica adapter FINSIG, hooks, bitácoras de auditoría.
+- monitoring_tests/      → Verifica health checks, métricas, bitácora.
 
-👉 **Buena práctica**:
-- Usar `pytest` con casos simples al inicio.
-- Añadir casos simulando conflictos y pérdida de conexión para probar la robustez.
+👉 **Buena práctica**: usar `pytest` y simular anomalías (corrupción, pérdida de red).
 
 ----------------------------------------------
 
-## 4. Carpeta `docs/`
-Esta carpeta contiene la documentación institucional y técnica.
-
+## 7. Carpeta `docs/`
 📂 sync-engine/docs/
-- bitacoras/sync.md           → Bitácora trilingüe (FR/ES/EN) del módulo sincronización.
-- guides/sync_usage.md        → Guía práctica de uso del motor de sincronización.
-- compliance/sync.md          → Normas de cumplimiento relacionadas con la sincronización.
+- bitacoras/             → Bitácoras trilingües (FR/ES/EN) para cada capa.
+- guides/                → Guías prácticas (uso, desarrollador, integración FINSIG).
+- compliance/            → Normas de cumplimiento y checklist de auditoría.
 
-👉 **Buena práctica**:
-- Actualizar la bitácora en cada commit o evolución.
-- La guía debe explicar cómo usar el motor en modo offline-first.
-- Incluir referencias legales y normas de trazabilidad.
+👉 **Buena práctica**: actualizar la bitácora en cada commit.
 
 ----------------------------------------------
 
-## 5. Carpeta `infra/`
-Esta carpeta contiene la infraestructura técnica para CI/CD y despliegue.
-
+## 8. Carpeta `infra/`
 📂 sync-engine/infra/
-- ci-cd/sync-ci.yml           → Flujo CI/CD específico del módulo sincronización.
-- scripts/lint_sync.sh        → Verificación de calidad de código.
-- scripts/coverage_sync.sh    → Medición de cobertura de pruebas.
-- scripts/deploy_sync.sh      → Despliegue del motor de sincronización.
+- ci-cd/sync-ci.yml      → Workflow CI/CD específico del sync-engine.
+- scripts/lint_sync.sh   → Verificación de calidad del código.
+- scripts/coverage_sync.sh → Medición de cobertura de pruebas.
+- scripts/deploy_sync.sh → Script de despliegue.
 
-👉 **Buena práctica**:
-- Automatizar lint + pruebas en cada commit.
-- Desplegar solo después de validar pruebas y cumplimiento.
-- Integrar monitoreo de sincronización en el pipeline CI/CD.
+👉 **Buena práctica**: automatizar lint + pruebas antes de cada despliegue.
 
 ----------------------------------------------
 
-## 6. Flujo de desarrollo
-1. Crear la rama `feature/sync-engine`.
-2. Añadir archivos vacíos + README trilingüe.
-3. Escribir pruebas iniciales (`assert True`).
-4. Completar progresivamente `src/` con funciones.
-5. Actualizar `docs/bitacoras/sync.md` en cada paso.
-6. Activar CI/CD (lint + pruebas automáticas).
-7. Fusionar en `develop`, luego en `main`.
+## 9. README.md
+📂 sync-engine/README.md
+- Presentación trilingüe (FR/ES/EN).
+- Explicación de las cuatro capas.
+- Instrucciones de ejecución e integración.
 
 ----------------------------------------------
 
-## 7. Resultado esperado
-- `src/` → Código robusto para caché, sincronización y resolución de conflictos.
-- `tests/` → Verificaciones unitarias y funcionales.
-- `docs/` → Trazabilidad documental y guías prácticas.
-- `infra/` → Automatización CI/CD y despliegue.  
-En conjunto → un **motor de sincronización completo**, listo para auditoría y certificación.
+## 10. Resultado esperado
+- **Core** → motor offline-first robusto.  
+- **Transport** → sincronización confiable y segura.  
+- **Integration** → conectores institucionales listos para FINSIG.  
+- **Monitoring** → supervisión y auditabilidad.  
+- **Tests** → validación completa por capa.  
+- **Docs** → trazabilidad y cumplimiento.  
+- **Infra** → CI/CD y despliegue automatizado.  
 
 ----------------------------------------------
 
-## 8. Conclusión / Síntesis
-El módulo **Sync Engine** es el **corazón de la continuidad operativa**.  
-- El código (`src/`) implementa caché, sincronización y resolución de conflictos.  
-- Las pruebas (`tests/`) validan la robustez frente a pérdidas de conexión y conflictos.  
-- La documentación (`docs/`) asegura transparencia y cumplimiento.  
-- La infraestructura (`infra/`) automatiza calidad y despliegue.  
+## 11. Conclusión / Síntesis
+El **Sync Engine** es la **columna vertebral de la continuidad operativa**.  
+- Garantiza la robustez técnica (caché, cola, sincronización).  
+- Asegura el cumplimiento institucional (bitácoras, auditorías).  
+- Prepara la integración externa (FINSIG, socios).  
 
-En conjunto, proporcionan una **base de sincronización confiable**, 
-capaz de garantizar la continuidad offline-first, reforzar la credibilidad institucional 
-y preparar la adopción por socios externos.
+En conjunto, constituye un **motor modular, auditable y con credibilidad institucional**, 
+listo para adopción y certificación.
 
 ##############################################
