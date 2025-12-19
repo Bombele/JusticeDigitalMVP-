@@ -1,0 +1,103 @@
+##############################################
+# 📖 Guía detallada – Integrity Engine
+##############################################
+
+## 1. Objetivo
+El módulo **Integrity Engine** asegura la trazabilidad y la robustez institucional:
+- Registros append-only para garantizar la integridad de las escrituras.
+- Árboles de Merkle para validar la coherencia de los datos.
+- Firmas institucionales para autenticar las operaciones.
+- Exportación CSV/PDF para auditorías externas.
+
+----------------------------------------------
+
+## 2. Carpeta `src/`
+Esta carpeta contiene el código fuente del motor de integridad.
+
+📂 integrity-engine/src/
+- log_append.py         → Gestión de registros append-only.
+- merkle_tree.py        → Generación y validación de árboles de Merkle.
+- signature.py          → Gestión de firmas institucionales.
+- integrity_export.py   → Exportación de registros para auditoría (CSV/PDF).
+
+👉 **Buena práctica**:
+- Cada archivo debe incluir una función principal + una función de log.
+- Documentar los algoritmos (Merkle, firmas) en el código y en `docs/`.
+
+----------------------------------------------
+
+## 3. Carpeta `tests/`
+Esta carpeta contiene pruebas unitarias y funcionales.
+
+📂 integrity-engine/tests/
+- test_log_append.py        → Verifica operaciones de registros append-only.
+- test_merkle_tree.py       → Verifica la coherencia del árbol de Merkle.
+- test_signature.py         → Verifica las firmas institucionales.
+- test_integrity_export.py  → Verifica la exportación CSV/PDF.
+
+👉 **Buena práctica**:
+- Comenzar con casos simples (`assert True`).
+- Añadir casos de corrupción simulada para probar la robustez.
+
+----------------------------------------------
+
+## 4. Carpeta `docs/`
+Esta carpeta contiene la documentación institucional y técnica.
+
+📂 integrity-engine/docs/
+- bitacoras/integrity.md    → Bitácora trilingüe (FR/ES/EN) del módulo integridad.
+- guides/integrity_usage.md → Guía práctica de uso del motor de integridad.
+
+👉 **Buena práctica**:
+- Actualizar la bitácora en cada commit o evolución.
+- La guía debe explicar cómo usar el motor para auditoría y cumplimiento.
+
+----------------------------------------------
+
+## 5. Carpeta `infra/`
+Esta carpeta contiene la infraestructura técnica para CI/CD y despliegue.
+
+📂 integrity-engine/infra/
+- ci-cd/integrity-ci.yml    → Flujo CI/CD específico del módulo integridad.
+- scripts/lint_integrity.sh → Linting del código.
+- scripts/coverage_integrity.sh → Cobertura de pruebas.
+- scripts/deploy_integrity.sh   → Despliegue del motor de integridad.
+
+👉 **Buena práctica**:
+- Automatizar lint + pruebas en cada commit.
+- Desplegar solo después de validar pruebas y exportación.
+
+----------------------------------------------
+
+## 6. Flujo de desarrollo
+1. Crear la rama `feature/integrity-engine`.
+2. Añadir archivos vacíos + README trilingüe.
+3. Escribir pruebas iniciales (`assert True`).
+4. Completar progresivamente `src/` con funciones.
+5. Actualizar `docs/bitacoras/integrity.md` en cada paso.
+6. Activar CI/CD (lint + pruebas automáticas).
+7. Fusionar en `develop`, luego en `main`.
+
+----------------------------------------------
+
+## 7. Resultado esperado
+- `src/` → Código robusto y auditable.
+- `tests/` → Verificaciones unitarias y funcionales.
+- `docs/` → Trazabilidad documental y guías prácticas.
+- `infra/` → Automatización CI/CD y despliegue.  
+En conjunto → un **motor de integridad completo**, listo para auditoría y certificación.
+
+----------------------------------------------
+
+## 8. Conclusión / Síntesis
+El módulo **Integrity Engine** es el **garante institucional de la trazabilidad**.  
+- El código (`src/`) implementa registros append-only, árboles de Merkle y firmas.  
+- Las pruebas (`tests/`) validan la robustez frente a corrupciones.  
+- La documentación (`docs/`) asegura transparencia y auditabilidad.  
+- La infraestructura (`infra/`) automatiza calidad y despliegue.  
+
+En conjunto, ofrecen una **base técnica e institucional sólida**, 
+capaz de superar auditorías, reforzar la credibilidad y preparar 
+la adopción por socios externos.
+
+##############################################
