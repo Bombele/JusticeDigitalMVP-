@@ -3,104 +3,114 @@
 ##############################################
 
 ## 1. Objectif
-Le module **Sync Engine** assure la synchronisation fiable et auditable des données :
-- Gestion des caches et files d’attente.
-- Synchronisation offline-first (mode déconnecté).
+Le module **Sync Engine** assure la continuité opérationnelle en mode offline-first :
+- Gestion du cache et des opérations hors ligne.
+- Synchronisation fiable dès que le réseau est rétabli.
 - Résolution de conflits entre versions locales et distantes.
-- Export et journaux pour audit institutionnel.
+- Export trilingue pour audit institutionnel.
 
 ----------------------------------------------
 
-## 2. Dossier `src/`
-Ce dossier contient le code source du moteur de synchronisation.
-
-📂 sync-engine/src/
+## 2. Dossier `core/`
+📂 sync-engine/core/
 - cache_manager.py       → Gestion du cache local.
-- sync_worker.py         → Processus de synchronisation (push/pull).
-- conflict_resolver.py   → Résolution des conflits de données.
-- sync_export.py         → Export des journaux de synchronisation (CSV/PDF).
+- operation_queue.py     → File d’opérations hors ligne (insert/update/delete).
+- conflict_resolver.py   → Algorithmes de résolution de conflits (LWW, CRDT, règles métier).
+- integrity_checks.py    → Vérification d’intégrité (horodatage, checksums).
 
-👉 **Bonne pratique** :
-- Séparer logique de cache, synchronisation et résolution de conflits.
-- Documenter chaque algorithme de résolution dans le code et dans `docs/`.
+👉 **Bonne pratique** : séparer clairement la logique de cache, queue et résolution.
 
 ----------------------------------------------
 
-## 3. Dossier `tests/`
-Ce dossier contient les tests unitaires et fonctionnels.
+## 3. Dossier `transport/`
+📂 sync-engine/transport/
+- sync_protocol.py       → Définition du protocole de synchronisation.
+- batch_uploader.py      → Regroupement des opérations en paquets.
+- retry_handler.py       → Gestion des échecs et reprise automatique.
+- encryption.py          → Chiffrement des paquets avant transmission.
 
+👉 **Bonne pratique** : tester surcharge réseau et pertes de connexion.
+
+----------------------------------------------
+
+## 4. Dossier `integration/`
+📂 sync-engine/integration/
+- finsig_adapter.py      → Connecteur vers FINSIG (scoring, compliance).
+- event_hooks.py         → Hooks d’événements pour notifier modules externes.
+- audit_logs.py          → Journaux d’audit exportables.
+
+👉 **Bonne pratique** : documenter chaque hook et format d’export.
+
+----------------------------------------------
+
+## 5. Dossier `monitoring/`
+📂 sync-engine/monitoring/
+- health_checks.py       → Vérification de l’état du moteur.
+- metrics_collector.py   → Collecte de métriques (offline ops, taux de succès).
+- bitacora_export.py     → Export trilingue (FR/ES/EN) pour auditabilité.
+
+👉 **Bonne pratique** : intégrer métriques dans Prometheus/Grafana.
+
+----------------------------------------------
+
+## 6. Dossier `tests/`
 📂 sync-engine/tests/
-- test_cache_manager.py       → Vérifie la gestion du cache.
-- test_sync_worker.py         → Vérifie les processus de synchronisation.
-- test_conflict_resolver.py   → Vérifie la résolution des conflits.
-- test_sync_export.py         → Vérifie l’export des journaux.
+- core_tests/            → Vérifie cache, queue, conflits, intégrité.
+- transport_tests/       → Vérifie protocole, batch, retry, encryption.
+- integration_tests/     → Vérifie adapter FINSIG, hooks, journaux d’audit.
+- monitoring_tests/      → Vérifie health checks, métriques, bitácora.
 
-👉 **Bonne pratique** :
-- Utiliser `pytest` avec cas simples au début.
-- Ajouter des cas simulant conflits et pertes de connexion pour tester la robustesse.
+👉 **Bonne pratique** : utiliser `pytest` et simuler anomalies (corruption, perte réseau).
 
 ----------------------------------------------
 
-## 4. Dossier `docs/`
-Ce dossier contient la documentation institutionnelle et technique.
-
+## 7. Dossier `docs/`
 📂 sync-engine/docs/
-- bitacoras/sync.md           → Bitácora trilingue (FR/ES/EN) du module synchronisation.
-- guides/sync_usage.md        → Guide pratique d’utilisation du moteur de synchronisation.
-- compliance/sync.md          → Normes de conformité liées à la synchronisation.
+- bitacoras/             → Bitácoras trilingues (FR/ES/EN) pour chaque couche.
+- guides/                → Guides pratiques (usage, développeur, intégration FINSIG).
+- compliance/            → Normes de conformité et checklist d’audit.
 
-👉 **Bonne pratique** :
-- La bitácora doit être mise à jour à chaque commit ou évolution.
-- Le guide doit expliquer comment utiliser le moteur en mode offline-first.
-- Inclure références légales et normes de traçabilité.
+👉 **Bonne pratique** : mettre à jour la bitácora à chaque commit.
 
 ----------------------------------------------
 
-## 5. Dossier `infra/`
-Ce dossier contient l’infrastructure technique pour CI/CD et déploiement.
-
+## 8. Dossier `infra/`
 📂 sync-engine/infra/
-- ci-cd/sync-ci.yml           → Workflow CI/CD spécifique au module synchronisation.
-- scripts/lint_sync.sh        → Vérifie la qualité du code.
-- scripts/coverage_sync.sh    → Mesure la couverture des tests.
-- scripts/deploy_sync.sh      → Déploiement du moteur de synchronisation.
+- ci-cd/sync-ci.yml      → Workflow CI/CD spécifique au sync-engine.
+- scripts/lint_sync.sh   → Vérification qualité du code.
+- scripts/coverage_sync.sh → Mesure de couverture des tests.
+- scripts/deploy_sync.sh → Script de déploiement.
 
-👉 **Bonne pratique** :
-- Automatiser lint + tests à chaque commit.
-- Déployer uniquement après validation des tests et conformité.
-- Intégrer monitoring de synchronisation dans le pipeline CI/CD.
+👉 **Bonne pratique** : automatiser lint + tests avant chaque déploiement.
 
 ----------------------------------------------
 
-## 6. Workflow de développement
-1. Créer la branche `feature/sync-engine`.
-2. Ajouter fichiers vides + README trilingue.
-3. Écrire tests placeholders (`assert True`).
-4. Remplir progressivement `src/` avec les fonctions.
-5. Mettre à jour `docs/bitacoras/sync.md` à chaque étape.
-6. Activer CI/CD (lint + tests automatiques).
-7. Fusionner dans `develop`, puis dans `main`.
+## 9. README.md
+📂 sync-engine/README.md
+- Présentation trilingue (FR/ES/EN).
+- Explication des quatre couches.
+- Instructions de lancement et intégration.
 
 ----------------------------------------------
 
-## 7. Résultat attendu
-- `src/` → Code robuste pour cache, synchronisation et résolution de conflits.
-- `tests/` → Vérifications unitaires et fonctionnelles.
-- `docs/` → Traçabilité documentaire et guides pratiques.
-- `infra/` → Automatisation CI/CD et déploiement.  
-Ensemble → un **moteur de synchronisation complet**, prêt pour audit et certification.
+## 10. Résultat attendu
+- **Core** → moteur offline-first robuste.  
+- **Transport** → synchro fiable et sécurisée.  
+- **Integration** → connecteurs institutionnels prêts pour FINSIG.  
+- **Monitoring** → supervision et auditabilité.  
+- **Tests** → validation complète par couche.  
+- **Docs** → traçabilité et conformité.  
+- **Infra** → CI/CD et déploiement automatisé.  
 
 ----------------------------------------------
 
-## 8. Conclusion / Synthèse
-Le module **Sync Engine** est le **cœur de la continuité opérationnelle**.  
-- Le code (`src/`) implémente cache, synchronisation et résolution de conflits.  
-- Les tests (`tests/`) valident la robustesse face aux pertes de connexion et conflits.  
-- La documentation (`docs/`) assure transparence et conformité.  
-- L’infrastructure (`infra/`) automatise qualité et déploiement.  
+## 11. Conclusion / Synthèse
+Le module **Sync Engine** est la **colonne vertébrale de la continuité opérationnelle**.  
+- Il garantit la robustesse technique (cache, queue, synchro).  
+- Il assure la conformité institutionnelle (bitácoras, audit logs).  
+- Il prépare l’intégration externe (FINSIG, partenaires).  
 
-Ensemble, ils offrent une **ossature de synchronisation fiable**, 
-capable de garantir la continuité offline-first, renforcer la crédibilité institutionnelle 
-et préparer l’adoption par des partenaires externes.
+Ensemble, il constitue un **moteur modulaire, auditable et institutionnellement crédible**, 
+prêt pour adoption et certification.
 
 ##############################################
