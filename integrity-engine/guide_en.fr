@@ -1,0 +1,103 @@
+##############################################
+# 📖 Detailed Guide – Integrity Engine
+##############################################
+
+## 1. Objective
+The **Integrity Engine** module ensures institutional traceability and robustness:
+- Append-only logs to guarantee write integrity.
+- Merkle trees to validate data consistency.
+- Institutional signatures to authenticate operations.
+- CSV/PDF export for external audits.
+
+----------------------------------------------
+
+## 2. Folder `src/`
+This folder contains the source code of the integrity engine.
+
+📂 integrity-engine/src/
+- log_append.py         → Append-only log management.
+- merkle_tree.py        → Merkle tree generation and validation.
+- signature.py          → Institutional signature management.
+- integrity_export.py   → Export logs for audit (CSV/PDF).
+
+👉 **Best practice**:
+- Each file should include a main function + a logging function.
+- Document algorithms (Merkle, signatures) both in code and in `docs/`.
+
+----------------------------------------------
+
+## 3. Folder `tests/`
+This folder contains unit and functional tests.
+
+📂 integrity-engine/tests/
+- test_log_append.py        → Verifies append-only log operations.
+- test_merkle_tree.py       → Verifies Merkle tree consistency.
+- test_signature.py         → Verifies institutional signatures.
+- test_integrity_export.py  → Verifies CSV/PDF export.
+
+👉 **Best practice**:
+- Start with simple cases (`assert True`).
+- Add simulated corruption cases to test robustness.
+
+----------------------------------------------
+
+## 4. Folder `docs/`
+This folder contains institutional and technical documentation.
+
+📂 integrity-engine/docs/
+- bitacoras/integrity.md    → Trilingual log (FR/ES/EN) of the integrity module.
+- guides/integrity_usage.md → Practical usage guide for the integrity engine.
+
+👉 **Best practice**:
+- Update the bitácora at every commit or evolution.
+- The guide should explain how to use the engine for audit and compliance.
+
+----------------------------------------------
+
+## 5. Folder `infra/`
+This folder contains technical infrastructure for CI/CD and deployment.
+
+📂 integrity-engine/infra/
+- ci-cd/integrity-ci.yml    → CI/CD workflow specific to the integrity module.
+- scripts/lint_integrity.sh → Code linting.
+- scripts/coverage_integrity.sh → Test coverage.
+- scripts/deploy_integrity.sh   → Integrity engine deployment.
+
+👉 **Best practice**:
+- Automate lint + tests at every commit.
+- Deploy only after validation of tests and export.
+
+----------------------------------------------
+
+## 6. Development Workflow
+1. Create branch `feature/integrity-engine`.
+2. Add empty files + trilingual README.
+3. Write placeholder tests (`assert True`).
+4. Gradually fill `src/` with functions.
+5. Update `docs/bitacoras/integrity.md` at each step.
+6. Enable CI/CD (lint + automated tests).
+7. Merge into `develop`, then into `main`.
+
+----------------------------------------------
+
+## 7. Expected Outcome
+- `src/` → Robust and auditable code.
+- `tests/` → Unit and functional verification.
+- `docs/` → Documentary traceability and practical guides.
+- `infra/` → CI/CD automation and deployment.  
+Together → a **complete integrity engine**, ready for audit and certification.
+
+----------------------------------------------
+
+## 8. Conclusion / Synthesis
+The **Integrity Engine** module is the **institutional guarantor of traceability**.  
+- The code (`src/`) implements append-only logs, Merkle trees, and signatures.  
+- The tests (`tests/`) validate robustness against corruption.  
+- The documentation (`docs/`) ensures transparency and auditability.  
+- The infrastructure (`infra/`) automates quality and deployment.  
+
+Together, they provide a **solid technical and institutional backbone**, 
+capable of passing audits, strengthening credibility, and preparing 
+for adoption by external partners.
+
+##############################################
